@@ -1,43 +1,62 @@
+# Name of the workflow shown in the GitHub Actions tab
 name: terraform automation
+
+# Events that trigger this workflow to run
 on:
-    push:
-        branches:
-            
-            - main
-            - master
-            - dev
+  # Runs automatically when code is pushed to these branches
+  push:
+    branches:
+      - main
+      - master
+      - dev
 
-    pull_request:
-        branches:
-            - main
-            - master
-            - dev
-    workflow_dispatch:
+  # Runs automatically when a Pull Request targets these branches
+  pull_request:
+    branches:
+      - main
+      - master
+      - dev
 
-jobs: 
-    
-# Spins up a brand-new, isolated runner (VM/container) per job.
+  # Adds a "Run workflow" button in the GitHub UI so you can trigger it manually
+  workflow_dispatch:
 
-    tf_init:
-        runs-on: ubuntu_latest
-        steps:
-            - name: code checkout
-              uses: actions/checkout@v4
-            
-            - name: cd to the terraform dir
-              run: |
-                cd terraform_code
-                pwd
-            
-            #pipe helps to write multi lie commands
+jobs:
+  # Job ID: Spins up a brand-new, isolated virtual machine (runner) for this job
+  tf_init:
+    # Must use a hyphen (-), not an underscore (_)
+    runs-on: ubuntu-latest
 
-            - name: terraform initialization
-              run: terraform init
-            
-            - name: terraform planning
-              run: terraform plan
+    # Sets the default folder for ALL 'run' steps in this job
+    # This replaces the need to write 'cd terraform_code' in every single step
+ 
+    defaults:
+      run:
+        working-directory: ./terraform_code
 
-    
+    # Each run step opens a fresh shell in the root directory. Running cd terraform_code in 
+    # one step will not keep you inside terraform_code for terraform init and terraform plan.
+    #that is why we use in defaults , instead of using  run :cd tf-code inside steps 
+    steps:
+      # Step 1: Downloads your repository code onto the runner VM
+      - name: code checkout
+        uses: actions/checkout@v4
+
+      # Step 2: Installs and configures the Terraform CLI on the runner
+      - name: setup terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # Step 3: Initializes Terraform (downloads providers and sets up backend)
+      - name: terraform initialization
+        run: terraform init
+
+      # Step 4: Checks formatting, validates files, and creates an execution plan
+      # The pipe (|) lets you run multiple commands one after another in the same step
+      - name: terraform planning
+        run: |
+          terraform fmt -check
+          terraform validate
+          terraform plan
+
               
 
 
