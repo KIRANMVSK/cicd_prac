@@ -1,0 +1,48 @@
+name: terraform automation
+on:
+    push:
+        branches:
+            
+            - main
+            - master
+            - dev
+
+    pull_request:
+        branches:
+            - main
+            - master
+            - dev
+    workflow_dispatch:
+
+jobs: 
+	# Spins up a brand-new, isolated runner (VM/container) per job.
+
+    tf_init:
+        runs-on: ubuntu_latest
+        steps:
+            - name: code checkout
+              uses: actions/checkout@v4
+            
+            - name: cd to the terraform dir
+              run: |
+                cd terraform_code
+                pwd
+            
+            #pipe helps to write multi lie commands
+
+            - name: terraform initialization
+              run: terraform init
+            
+            - name: terraform planning
+              run: terraform plan
+
+    
+              
+
+
+
+
+
+
+
+
