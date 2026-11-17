@@ -44,5 +44,13 @@ jobs:
                 name: tfplan
                 path: ./terraform_code/tfplan
              
-            
+      
+    #as we know each job starts with fresh new vm
+    #and each step inside the job gets new shell 
+    #inside the job the data processed will be persistent inside the workspace across steps          
+    tf_apply:
+        runs-on: ubuntu-latest
+        steps:
+            - name: terraform apply
+              run: terraform apply -auto-approve tfplan
 
