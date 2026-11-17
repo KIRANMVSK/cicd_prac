@@ -12,7 +12,10 @@ on:
 
 jobs:
     self_hosted_runner:
-        runs-on: [self-hosted kiran-vm]  # [telling slef-hosted and providing its label to identify]
+        runs-on: [self-hosted , kiran-vm]  # [providing its label to identify ]
+        #by default every self hosted runne rgets label slef-hosted you can more labels
+        #even one label matched our github will assignto taht runner (slef hosetd label is common)
+        #so you can remove and add only specific label
         steps:
             - name: printing my full name
               run: echo "mandapati venkata sai kiran"
@@ -25,3 +28,12 @@ jobs:
 #instead of only runs-on:[self-hosted]
 #if you give extra labels
 #runs-on:[self-hosted , lables] 
+
+
+
+#agent polls the github
+#that is why no inbound need to be open
+# see
+
+# Current runner version: '2.338.2'
+# 2026-11-17 18:16:48Z: Listening for Jobs   inside our vm the runner process polling the github
