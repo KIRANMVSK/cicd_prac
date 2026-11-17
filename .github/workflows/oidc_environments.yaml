@@ -1,0 +1,35 @@
+#lets dive into this two important github actions concepst
+#  - oidc
+#  - environments
+name : oidc and environments practice
+on:
+    pull_request:
+        branches:
+            - main
+            - master
+    push:
+        branches:
+            - main
+            - master
+    workflow_dispatch:
+jobs:
+    tf_plan:
+        runs-on: ubuntu-latest
+        environment: production
+
+        #lets try to print the eenvironment secrets and variabels
+        #and see i also slected required reviewers so adter reviewer allow only
+        #pipeline runs and we allowed to access the prodution env secrets and vars
+        steps:
+
+            - name: printing variable
+              run: echo ${{secrets.USER_NAME}}"
+            
+            - name: printing secrets
+              run: echo ${{vars.PASSWORD}}
+        
+
+        
+
+
+    
