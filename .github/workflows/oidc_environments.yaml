@@ -23,10 +23,10 @@ jobs:
         steps:
 
             - name: printing variable
-              run: echo ${{secrets.USER_NAME}}"
+              run: echo "${{secrets.USER_NAME}}"
             
             - name: printing secrets
-              run: echo ${{vars.PASSWORD}}
+              run: echo "${{vars.PASSWORD}}"
         
 
         
