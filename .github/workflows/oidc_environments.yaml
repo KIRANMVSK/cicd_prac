@@ -27,9 +27,24 @@ jobs:
             
             - name: printing secrets
               run: echo "${{vars.PASSWORD}}"
-        
-
-        
-
-
     
+    aws-authentication:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            role-to-assume: arn:aws:iam::560696397575:role/EC2-ROLE-GITHUB
+            aws-region: us-east-1
+
+        - name: Verify AWS Identity
+          run: aws sts get-caller-identity
+
+        - name: List EC2 Instances
+          run: aws ec2 describe-instances
+
+
+        
