@@ -1,0 +1,27 @@
+name: self hosted
+on:
+    pull_request:
+        branches:
+            - main
+            - master
+    push:
+        branches:
+            - main
+            - master
+    workflow_dispatch:
+
+jobs:
+    self_hosted_runner:
+        runs-on: [self-hosted kiran-vm]  # [telling slef-hosted and providing its label to identify]
+        steps:
+            - name: printing my full name
+              run: echo "mandapati venkata sai kiran"
+    
+
+#you must setup runner with that lable name kiran-vm
+#go to settings of repo --> action--> runner --> new self hosted runner
+# and run the given configurations
+#see by deafult you can us eslef-hosted but see you can explicitly specify set of labels
+#instead of only runs-on:[self-hosted]
+#if you give extra labels
+#runs-on:[self-hosted , lables] 
