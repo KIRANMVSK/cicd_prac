@@ -70,7 +70,13 @@ jobs:
               uses: actions/download-artifact@v4   # downloads artifact into the current root dir/workspace
               with:
                 name: tfplan  # the name(nothing but label) we given at the time of  uploading artifact
-                
+
+            - name: terraform installation
+              uses: hashicorp/setup-terraform@v3
+            
+            - name: terraform init
+              run: terraform init
+
             - name: terraform apply
               run: terraform apply -auto-approve tfplan
 
