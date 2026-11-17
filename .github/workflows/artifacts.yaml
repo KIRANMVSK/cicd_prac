@@ -50,7 +50,29 @@ jobs:
     #inside the job the data processed will be persistent inside the workspace across steps          
     tf_apply:
         runs-on: ubuntu-latest
+        needs: tf_plan
         steps:
+            #again we need to do checkout the github the code else it does stores inside default runner workspace
+            # /home/runner/work/
+
+            - name: github checkout
+              uses: actions/checkout@v4
+            #it clones the github code and makes the github dir as the default working dir
+            #now deafault workspace will be --> /home/runner/work/<repo>/<repo>
+            #first repo simply github repo name to store any temp came while cloning
+            #second repo is actual our github repo now it will be deafult workspace dir
+            #and it is for all steps inside this job
+
+            #we can change if we want while running shell using run 
+            #on while using uses we can use with and change dir location as our preference
+
+            - name: Download Plan Artifact
+              uses: actions/download-artifact@v4   # downloads artifact into the current root dir/workspace
+              with:
+                name: tfplan  # the name(nothing but label) we given at the time of  uploading artifact
+                
             - name: terraform apply
               run: terraform apply -auto-approve tfplan
+
+              #in deafults we mentioned working-directory as ./terraform_code while running any run command
 
