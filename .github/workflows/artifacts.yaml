@@ -43,7 +43,13 @@ jobs:
               with:
                 name: tfplan
                 path: ./terraform_code/tfplan
-             
+
+# How path Works in Both Steps
+# • In actions/upload-artifact (path: ./terraform_code/tfplan):
+# This tells GitHub Actions where to grab the file from on the tf_plan runner VM so it can upload it to GitHub's artifact cloud storage under the label name: tfplan.
+# • In actions/download-artifact (path: ./terraform_code):
+# This tells GitHub Actions where to save (extract) the downloaded file on the new tf_apply runner VM. If you leave path out, it drops the file into the root workspace folder (./) by default.
+
       
     #as we know each job starts with fresh new vm
     #and each step inside the job gets new shell 
@@ -70,6 +76,7 @@ jobs:
               uses: actions/download-artifact@v4   # downloads artifact into the current root dir/workspace
               with:
                 name: tfplan  # the name(nothing but label) we given at the time of  uploading artifact
+                path: ./terraform_code
 
             - name: terraform installation
               uses: hashicorp/setup-terraform@v3
