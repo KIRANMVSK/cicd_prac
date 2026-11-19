@@ -1,0 +1,54 @@
+name: oidc workflow and terraform deploy
+on:
+    push:
+        branches:
+            - main
+            - master
+    workflow_dispatch:
+
+defaults:
+    run:
+        working-directory: ./terraform_code
+
+permissions:
+    id-token: write
+    contents: read
+
+
+jobs:
+    oidc_role:
+        runs-on: ubuntu-latest
+        steps:
+
+            - name: code checkout
+              uses: actions/checkout@v4
+
+            - name: lets install awscli
+              run: |
+                sudo apt update -y
+                sudo apt install awscli -y
+
+            - name: lets configure oidc role
+              uses: aws-actions/configure-aws-credentials@v4
+              with: 
+                role-to-assume: arn:aws:iam::560696397575:role/OIDC-ROLE-GITHUB-CICD-PRAC
+                aws-region: us-east-1 
+            
+            - name: terraform installation
+              uses: hashicorp/setup-terraform@v3
+            
+            - name: terraform init
+              run: terraform init
+            
+            - name: terraform plan
+              run: terraform plan -out tfplan
+ 
+            - name: terraform apply
+              run: terraform apply -auto-approve tfplan
+            
+            #no worries why becuse i used the backend in tf so state maintained in s3 
+            #we can do tf manage from anywhere
+            - name: terraform destroy
+              run: teraform destroy -auto-approve
+
+

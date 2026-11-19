@@ -1,0 +1,81 @@
+name: self hosted
+on:
+    pull_request:
+        branches:
+            - main
+            - master
+    push:
+        branches:
+            - main
+            - master
+    workflow_dispatch:
+
+jobs:
+    self_hosted_runner:
+        runs-on: [self-hosted , kiran-vm]  # [providing its label to identify ]
+        #by default every self hosted runne rgets label slef-hosted you can more labels
+        #even one label matched our github will assignto taht runner (slef hosetd label is common)
+        #so you can remove and add only specific label
+        steps:
+            - name: printing my full name
+              run: echo "mandapati venkata sai kiran"
+    
+
+#you must setup runner with that lable name kiran-vm
+#go to settings of repo --> action--> runner --> new self hosted runner
+# and run the given configurations
+#see by deafult you can us eslef-hosted but see you can explicitly specify set of labels
+#instead of only runs-on:[self-hosted]
+#if you give extra labels
+#runs-on:[self-hosted , lables] 
+
+
+
+#agent polls the github
+#that is why no inbound need to be open
+# see
+
+# Current runner version: '2.338.2'
+# 2026-11-17 18:16:48Z: Listening for Jobs   inside our vm the runner process polling the github
+
+#inside our self hosted vm
+
+# |        ____ _ _   _   _       _          _        _   _                      |
+# |       / ___(_) |_| | | |_   _| |__      / \   ___| |_(_) ___  _ __  ___      |
+# |      | |  _| | __| |_| | | | | '_ \    / _ \ / __| __| |/ _ \| '_ \/ __|     |
+# |      | |_| | | |_|  _  | |_| | |_) |  / ___ \ (__| |_| | (_) | | | \__ \     |
+# |       \____|_|\__|_| |_|\__,_|_.__/  /_/   \_\___|\__|_|\___/|_| |_|___/     |
+# |                                                                              |
+# |                       Self-hosted runner registration                        |
+# |                                                                              |
+# --------------------------------------------------------------------------------
+
+# # Authentication
+
+
+# √ Connected to GitHub
+
+# # Runner Registration
+
+# Enter the name of the runner group to add this runner to: [press Enter for Default] 
+
+
+
+# √ Runner successfully added
+
+# # Runner settings
+
+# Enter name of work folder: [press Enter for _work] 
+
+# √ Settings Saved.
+
+# ubuntu@ip-172-31-41-102:~$ 
+# ubuntu@ip-172-31-41-102:~$ ./run.sh
+
+# √ Connected to GitHub
+
+# Current runner version: '2.338.2'
+# 2026-11-17 18:16:48Z: Listening for Jobs
+# 2026-11-17 18:24:51Z: Running job: self_hosted_runner
+# 2026-11-17 18:24:54Z: Job self_hosted_runner completed with result: Succeeded
+

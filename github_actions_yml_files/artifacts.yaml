@@ -41,8 +41,9 @@ jobs:
             - name: Upload Plan Artifact
               uses: actions/upload-artifact@v4
               with:
-                name: tfplan
-                path: ./terraform_code/tfplan
+                name: tfplan    # nothing but label 
+                path: ./terraform_code/tfplan   #it is the soure location of file to look for
+            
 
 # How path Works in Both Steps
 # • In actions/upload-artifact (path: ./terraform_code/tfplan):
